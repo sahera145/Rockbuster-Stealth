@@ -1,0 +1,12 @@
+Using Joins to gather data on top 10 films:
+
+SELECT D.title, F.name AS genre, SUM(ROUND(amount)) AS sum_revenue
+FROM payment A
+  INNER JOIN rental B ON A.rental_id = B.rental_id
+  INNER JOIN inventory C ON B.inventory_id = C.inventory_id
+  INNER JOIN film D ON C.film_id = D.film_id
+  INNER JOIN film_category E ON D.film_id = E.film_id
+  INNER JOIN category F ON E.category_id = F.category_id
+  GROUP by D.title, genre
+  ORDER BY sum_revenue DESC
+LIMIT 10
