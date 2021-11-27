@@ -1,0 +1,18 @@
+Created an SQL Query using a Common Table Expression:
+
+WITH average_cte AS
+(
+SELECT E.customer_id, A.first_name, A.last_name, C.city, D.country, SUM(amount) AS total_spent
+FROM customer A
+  INNER JOIN address B ON A.address_id=B.address_id
+  INNER JOIN city C ON B.city=C.city,
+  INNER JOIN country D ON C.country_id=D.country_id
+  INNER JOIN payment E ON A.customer_id=E.customer_id
+  WHERE D.country IN ('India', 'China', 'United States', 'Japan', 'Mexico', 'Brazil', 'Russian Federation', 'Phillipines', 'Turkey', 'Indonesia')
+  AND C.city IN ('Aurora', 'Pingxiang', 'Sivas', 'Dhule (Dhulia)', 'Kurashiki', 'Xintai', 'Adoni', 'Celaya', 'Nezahualcyotl', 'Atlixco')
+  GROUP BY E.customer_id, A.first_name, A.last_name, C.city, D.country
+  ORDER BY total_spent DESC
+LIMIT 5
+)
+SELECT AVG(total_spent) AS average_total_spent
+FROM average_cte;
